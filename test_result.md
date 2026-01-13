@@ -227,13 +227,15 @@ test_plan:
 metadata:
   created_by: "testing_agent"
   version: "1.0"
-  test_sequence: 2
+  test_sequence: 3
 
 test_plan:
-  current_focus: []
-  stuck_tasks: []
-  test_all: true
-  test_priority: "completed"
+  current_focus:
+    - "Pricing Section Implementation"
+  stuck_tasks:
+    - "Pricing Section Implementation"
+  test_all: false
+  test_priority: "high_first"
 
   - task: "Testimonials Section Implementation"
     implemented: true
