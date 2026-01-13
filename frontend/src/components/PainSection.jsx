@@ -52,7 +52,7 @@ export default function PainSection() {
                 El desorden te está costando dinero real
               </h3>
               <p className="text-lg text-muted-foreground leading-relaxed">
-                Los clientes se van con la competencia si no respondes al instante, tu equipo no sabe a quién priorizar & cada día pierdes oportunidades de venta que nunca recuperarás.
+                Los clientes se van con la competencia si no respondes al instante, tu equipo no sabe a quién priorizar y cada día pierdes oportunidades de venta que nunca recuperarás.
               </p>
             </div>
           </div>
