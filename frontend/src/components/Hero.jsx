@@ -31,13 +31,13 @@ export default function Hero() {
         {/* Main Headline */}
         <h1 className="text-4xl sm:text-5xl lg:text-7xl font-bold mb-6 leading-tight">
           Toma el control total de tus ventas{' '}
-          <span className="gradient-text">& recibe leads calificados</span>{' '}
+          <span className="gradient-text">y recibe leads calificados</span>{' '}
           en 24 horas usando nuestro Generador de Landings con IA
         </h1>
         
         {/* Sub-headline */}
         <p className="text-lg sm:text-xl text-muted-foreground max-w-4xl mx-auto mb-12 leading-relaxed">
-          ¿Cansado de perder ventas en chats desordenados? Clientesflow es la única solución que combina landing pages de alta conversión con un CRM inteligente para garantizarte conversaciones claras, contactos priorizados & cierres más rápidos
+          ¿Cansado de perder ventas en chats desordenados? Clientesflow es la única solución que combina landing pages de alta conversión con un CRM inteligente para garantizarte conversaciones claras, contactos priorizados y cierres más rápidos
         </p>
         
         {/* CTA Section */}
