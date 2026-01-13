@@ -3,6 +3,7 @@ import Navbar from './components/Navbar';
 import Hero from './components/Hero';
 import PainSection from './components/PainSection';
 import ValueBento from './components/ValueBento';
+import Testimonials from './components/Testimonials';
 import FAQ from './components/FAQ';
 import Footer from './components/Footer';
 import { Toaster } from './components/ui/sonner';
@@ -15,6 +16,7 @@ export default function App() {
       <Hero />
       <PainSection />
       <ValueBento />
+      <Testimonials />
       <FAQ />
       <Footer />
       <Toaster />
