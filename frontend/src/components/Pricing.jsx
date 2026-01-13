@@ -2,7 +2,6 @@ import React, { useState, useRef } from 'react';
 import { motion } from 'framer-motion';
 import { Check, Star } from 'lucide-react';
 import confetti from 'canvas-confetti';
-import NumberFlow from '@number-flow/react';
 import { Button, buttonVariants } from './ui/button';
 import { Label } from './ui/label';
 import { Switch } from './ui/switch';
