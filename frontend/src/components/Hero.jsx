@@ -60,7 +60,7 @@ export default function Hero() {
             </Button>
           </div>
           <p className="text-sm text-muted-foreground mt-4">
-            Incluye hosting, SSL & dominio gratis
+            Incluye hosting, SSL y dominio gratis
           </p>
         </div>
         
