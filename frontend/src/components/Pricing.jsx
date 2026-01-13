@@ -193,20 +193,7 @@ export default function Pricing() {
                 <div className="mb-6">
                   <div className="flex items-baseline justify-center gap-x-2">
                     <span className="text-5xl font-bold tracking-tight gradient-text">
-                      <NumberFlow
-                        value={isMonthly ? Number(plan.price) : Number(plan.yearlyPrice)}
-                        format={{
-                          style: 'currency',
-                          currency: 'USD',
-                          minimumFractionDigits: 0,
-                          maximumFractionDigits: 0,
-                        }}
-                        transformTiming={{
-                          duration: 500,
-                          easing: 'ease-out',
-                        }}
-                        willChange
-                      />
+                      ${isMonthly ? plan.price : plan.yearlyPrice}
                     </span>
                     <span className="text-lg font-semibold text-muted-foreground">
                       / {plan.period}
