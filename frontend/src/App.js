@@ -1,4 +1,5 @@
 import React from 'react';
+import Navbar from './components/Navbar';
 import Hero from './components/Hero';
 import PainSection from './components/PainSection';
 import ValueBento from './components/ValueBento';
@@ -10,6 +11,7 @@ import './App.css';
 export default function App() {
   return (
     <div className="min-h-screen bg-background">
+      <Navbar />
       <Hero />
       <PainSection />
       <ValueBento />
