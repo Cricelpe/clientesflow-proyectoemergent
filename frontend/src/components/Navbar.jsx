@@ -37,7 +37,8 @@ export default function Navbar() {
     {
       icon: Wand2,
       title: 'Generador de Landings con IA',
-      description: 'Crea páginas profesionales en segundos'
+      description: 'Crea páginas profesionales en segundos',
+      href: '/admin/generator'
     },
     {
       icon: Target,
