@@ -29,6 +29,10 @@ db = client[os.environ['DB_NAME']]
 # Create the main app without a prefix
 app = FastAPI(title="Clientesflow API", version="1.0.0")
 
+# Inicializar base de datos SQLite
+init_db()
+logger.info("SQLite database initialized")
+
 # Create a router with the /api prefix
 api_router = APIRouter(prefix="/api")
 
