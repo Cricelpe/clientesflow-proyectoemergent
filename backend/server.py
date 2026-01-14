@@ -10,23 +10,28 @@ from typing import List
 import uuid
 from datetime import datetime, timezone
 
+# Importar rutas de Supabase
+from routes.auth import router as auth_router
+from routes.landing_pages import router as landing_pages_router
+from routes.leads import router as leads_router
+
 
 ROOT_DIR = Path(__file__).parent
 load_dotenv(ROOT_DIR / '.env')
 
-# MongoDB connection
+# MongoDB connection (mantener para compatibilidad)
 mongo_url = os.environ['MONGO_URL']
 client = AsyncIOMotorClient(mongo_url)
 db = client[os.environ['DB_NAME']]
 
 # Create the main app without a prefix
-app = FastAPI()
+app = FastAPI(title="Clientesflow API", version="1.0.0")
 
 # Create a router with the /api prefix
 api_router = APIRouter(prefix="/api")
 
 
-# Define Models
+# Define Models (MongoDB - mantener para compatibilidad)
 class StatusCheck(BaseModel):
     model_config = ConfigDict(extra="ignore")  # Ignore MongoDB's _id field
     
@@ -40,7 +45,7 @@ class StatusCheckCreate(BaseModel):
 # Add your routes to the router instead of directly to app
 @api_router.get("/")
 async def root():
-    return {"message": "Hello World"}
+    return {"message": "Clientesflow API - Powered by Supabase"}
 
 @api_router.post("/status", response_model=StatusCheck)
 async def create_status_check(input: StatusCheckCreate):
@@ -66,7 +71,12 @@ async def get_status_checks():
     
     return status_checks
 
-# Include the router in the main app
+# Include Supabase routers
+app.include_router(auth_router)
+app.include_router(landing_pages_router)
+app.include_router(leads_router)
+
+# Include the legacy router in the main app
 app.include_router(api_router)
 
 app.add_middleware(
@@ -87,3 +97,4 @@ logger = logging.getLogger(__name__)
 @app.on_event("shutdown")
 async def shutdown_db_client():
     client.close()
+    logger.info("Database connection closed")
