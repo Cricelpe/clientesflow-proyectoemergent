@@ -9,6 +9,7 @@ import Pricing from './components/Pricing';
 import FAQ from './components/FAQ';
 import Footer from './components/Footer';
 import LandingGenerator from './components/LandingGenerator';
+import LeadsPanel from './components/LeadsPanel';
 import { Toaster } from './components/ui/sonner';
 import './App.css';
 
@@ -35,6 +36,7 @@ export default function App() {
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/admin/generator" element={<LandingGenerator />} />
+          <Route path="/admin/leads" element={<LeadsPanel />} />
         </Routes>
         <Toaster />
       </div>
