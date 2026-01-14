@@ -10,10 +10,10 @@ from typing import List
 import uuid
 from datetime import datetime, timezone
 
-# Importar rutas de Supabase
-from routes.auth import router as auth_router
-from routes.landing_pages import router as landing_pages_router
-from routes.leads import router as leads_router
+# Importar configuración de SQLite
+from config.database import init_db
+
+# Importar rutas
 from routes.registro import router as registro_router
 from routes.landing_generator import router as landing_generator_router
 
