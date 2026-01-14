@@ -77,10 +77,7 @@ async def get_status_checks():
     
     return status_checks
 
-# Include Supabase routers
-app.include_router(auth_router)
-app.include_router(landing_pages_router)
-app.include_router(leads_router)
+# Include routers
 app.include_router(registro_router)
 app.include_router(landing_generator_router)
 
