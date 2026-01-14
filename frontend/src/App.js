@@ -1,4 +1,5 @@
 import React from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import HeroWithForm from './components/HeroWithForm';
 import PainSection from './components/PainSection';
@@ -7,13 +8,14 @@ import Testimonials from './components/Testimonials';
 import Pricing from './components/Pricing';
 import FAQ from './components/FAQ';
 import Footer from './components/Footer';
+import LandingGenerator from './components/LandingGenerator';
 import { Toaster } from './components/ui/sonner';
 import './App.css';
 
-export default function App() {
+// Página principal (Landing de Clientesflow)
+function HomePage() {
   return (
-    <div className="min-h-screen bg-background">
-      <Navbar />
+    <>
       <HeroWithForm />
       <PainSection />
       <ValueBento />
@@ -21,7 +23,21 @@ export default function App() {
       <Pricing />
       <FAQ />
       <Footer />
-      <Toaster />
-    </div>
+    </>
+  );
+}
+
+export default function App() {
+  return (
+    <Router>
+      <div className="min-h-screen bg-background">
+        <Navbar />
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/admin/generator" element={<LandingGenerator />} />
+        </Routes>
+        <Toaster />
+      </div>
+    </Router>
   );
 }
