@@ -1,31 +1,23 @@
-from fastapi import APIRouter, HTTPException, status
+from fastapi import APIRouter, HTTPException, status, Depends
+from sqlalchemy.orm import Session
+from config.database import get_db, LandingGenerada as LandingModel
 from models.landing_generated import (
     GenerateLandingRequest,
     GenerateLandingResponse,
-    LandingContent,
-    GeneratedLanding
+    LandingContent
 )
 from services.landing_generator import generate_landing_content
-from config.supabase import get_supabase_client
 from datetime import datetime
 import logging
-from typing import List
+import json
 
 router = APIRouter(prefix="/api", tags=["landing-generator"])
 logger = logging.getLogger(__name__)
 
 @router.post("/generate-landing", response_model=GenerateLandingResponse)
-async def generate_landing(request: GenerateLandingRequest):
+async def generate_landing(request: GenerateLandingRequest, db: Session = Depends(get_db)):
     """
-    Genera una landing page completa usando IA basándose en la descripción del negocio.
-    
-    El sistema analiza la descripción y crea:
-    - Headline con Dream Outcome + Functional Benefit + Timeframe
-    - Subheadline con Unique Mechanism
-    - 3 Pain Points con framework PAS
-    - 3 Benefits principales
-    - 5 FAQs
-    - Recomendación de plantilla
+    Genera una landing page completa usando IA y la guarda en SQLite.
     """
     try:
         # Validar que la descripción no esté vacía
@@ -39,31 +31,23 @@ async def generate_landing(request: GenerateLandingRequest):
         logger.info(f"Generando landing para: {request.business_description[:50]}...")
         landing_data = generate_landing_content(request.business_description)
         
-        # Guardar en Supabase
-        supabase = get_supabase_client()
+        # Guardar en SQLite
+        db_landing = LandingModel(
+            business_description=request.business_description,
+            content=json.dumps(landing_data),  # Guardar como JSON string
+            template_used=landing_data.get("template_recommendation", "v1"),
+            created_at=datetime.utcnow()
+        )
         
-        db_data = {
-            "business_description": request.business_description,
-            "content": landing_data,
-            "template_used": landing_data.get("template_recommendation", "v1"),
-            "created_at": datetime.utcnow().isoformat()
-        }
+        db.add(db_landing)
+        db.commit()
+        db.refresh(db_landing)
         
-        response = supabase.table("landings_generadas").insert(db_data).execute()
-        
-        if not response.data:
-            logger.error("No se pudo guardar la landing en Supabase")
-            raise HTTPException(
-                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-                detail="Error al guardar la landing generada"
-            )
-        
-        landing_id = response.data[0].get("id")
-        logger.info(f"Landing guardada exitosamente: {landing_id}")
+        logger.info(f"Landing guardada exitosamente: {db_landing.id}")
         
         return GenerateLandingResponse(
             success=True,
-            landing_id=landing_id,
+            landing_id=str(db_landing.id),
             content=LandingContent(**landing_data),
             message="Landing generada exitosamente"
         )
@@ -77,23 +61,35 @@ async def generate_landing(request: GenerateLandingRequest):
             detail=str(e)
         )
     except Exception as e:
+        db.rollback()
         logger.error(f"Error generando landing: {str(e)}")
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             detail=f"Error al generar la landing: {str(e)}"
         )
 
-@router.get("/generated-landings", response_model=List[GeneratedLanding])
-async def get_generated_landings():
+@router.get("/generated-landings")
+async def get_generated_landings(db: Session = Depends(get_db)):
     """
     Obtiene todas las landings generadas
     """
     try:
-        supabase = get_supabase_client()
+        landings = db.query(LandingModel).order_by(LandingModel.created_at.desc()).all()
         
-        response = supabase.table("landings_generadas").select("*").order("created_at", desc=True).execute()
-        
-        return response.data
+        return {
+            "success": True,
+            "count": len(landings),
+            "landings": [
+                {
+                    "id": landing.id,
+                    "business_description": landing.business_description,
+                    "content": json.loads(landing.content),
+                    "template_used": landing.template_used,
+                    "created_at": landing.created_at.isoformat() if landing.created_at else None
+                }
+                for landing in landings
+            ]
+        }
         
     except Exception as e:
         logger.error(f"Error obteniendo landings: {str(e)}")
@@ -102,23 +98,30 @@ async def get_generated_landings():
             detail=f"Error al obtener landings: {str(e)}"
         )
 
-@router.get("/generated-landings/{landing_id}", response_model=GeneratedLanding)
-async def get_generated_landing(landing_id: str):
+@router.get("/generated-landings/{landing_id}")
+async def get_generated_landing(landing_id: int, db: Session = Depends(get_db)):
     """
     Obtiene una landing generada específica
     """
     try:
-        supabase = get_supabase_client()
+        landing = db.query(LandingModel).filter(LandingModel.id == landing_id).first()
         
-        response = supabase.table("landings_generadas").select("*").eq("id", landing_id).execute()
-        
-        if not response.data:
+        if not landing:
             raise HTTPException(
                 status_code=status.HTTP_404_NOT_FOUND,
                 detail="Landing no encontrada"
             )
         
-        return response.data[0]
+        return {
+            "success": True,
+            "landing": {
+                "id": landing.id,
+                "business_description": landing.business_description,
+                "content": json.loads(landing.content),
+                "template_used": landing.template_used,
+                "created_at": landing.created_at.isoformat() if landing.created_at else None
+            }
+        }
         
     except HTTPException:
         raise
