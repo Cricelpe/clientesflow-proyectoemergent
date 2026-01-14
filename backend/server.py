@@ -15,6 +15,7 @@ from routes.auth import router as auth_router
 from routes.landing_pages import router as landing_pages_router
 from routes.leads import router as leads_router
 from routes.registro import router as registro_router
+from routes.landing_generator import router as landing_generator_router
 
 
 ROOT_DIR = Path(__file__).parent
