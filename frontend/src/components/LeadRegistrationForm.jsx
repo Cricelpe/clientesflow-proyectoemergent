@@ -64,79 +64,79 @@ export default function LeadRegistrationForm({ onSuccess }) {
   };
 
   return (
-    <form onSubmit={handleSubmit} className=\"space-y-4 w-full max-w-md\">
+    <form onSubmit={handleSubmit} className="space-y-4 w-full max-w-md">
       {/* Nombre */}
-      <div className=\"relative\">
-        <User className=\"absolute left-3 top-3 h-5 w-5 text-muted-foreground\" />
+      <div className="relative">
+        <User className="absolute left-3 top-3 h-5 w-5 text-muted-foreground" />
         <Input
-          type=\"text\"
-          name=\"nombre\"
-          placeholder=\"Tu nombre completo\"
+          type="text"
+          name="nombre"
+          placeholder="Tu nombre completo"
           value={formData.nombre}
           onChange={handleChange}
           required
-          className=\"pl-10 bg-card border-border text-foreground\"
+          className="pl-10 bg-card border-border text-foreground"
         />
       </div>
 
       {/* Email */}
-      <div className=\"relative\">
-        <Mail className=\"absolute left-3 top-3 h-5 w-5 text-muted-foreground\" />
+      <div className="relative">
+        <Mail className="absolute left-3 top-3 h-5 w-5 text-muted-foreground" />
         <Input
-          type=\"email\"
-          name=\"email\"
-          placeholder=\"tu@email.com\"
+          type="email"
+          name="email"
+          placeholder="tu@email.com"
           value={formData.email}
           onChange={handleChange}
           required
-          className=\"pl-10 bg-card border-border text-foreground\"
+          className="pl-10 bg-card border-border text-foreground"
         />
       </div>
 
       {/* Teléfono */}
-      <div className=\"relative\">
-        <Phone className=\"absolute left-3 top-3 h-5 w-5 text-muted-foreground\" />
+      <div className="relative">
+        <Phone className="absolute left-3 top-3 h-5 w-5 text-muted-foreground" />
         <Input
-          type=\"tel\"
-          name=\"telefono\"
-          placeholder=\"+34 612 345 678\"
+          type="tel"
+          name="telefono"
+          placeholder="+34 612 345 678"
           value={formData.telefono}
           onChange={handleChange}
           required
-          className=\"pl-10 bg-card border-border text-foreground\"
+          className="pl-10 bg-card border-border text-foreground"
         />
       </div>
 
       {/* Mensaje */}
-      <div className=\"relative\">
-        <MessageSquare className=\"absolute left-3 top-3 h-5 w-5 text-muted-foreground\" />
+      <div className="relative">
+        <MessageSquare className="absolute left-3 top-3 h-5 w-5 text-muted-foreground" />
         <Textarea
-          name=\"mensaje\"
-          placeholder=\"Cuéntanos sobre tu negocio (opcional)\"
+          name="mensaje"
+          placeholder="Cuéntanos sobre tu negocio (opcional)"
           value={formData.mensaje}
           onChange={handleChange}
           rows={3}
-          className=\"pl-10 pt-3 bg-card border-border text-foreground resize-none\"
+          className="pl-10 pt-3 bg-card border-border text-foreground resize-none"
         />
       </div>
 
       {/* Submit Button */}
       <Button
-        type=\"submit\"
+        type="submit"
         disabled={isLoading}
-        className=\"w-full bg-gradient-to-r from-primary via-accent to-secondary hover:opacity-90 text-background font-semibold py-6 text-lg transition-all hover:scale-105\"
+        className="w-full bg-gradient-to-r from-primary via-accent to-secondary hover:opacity-90 text-background font-semibold py-6 text-lg transition-all hover:scale-105"
       >
         {isLoading ? (
           <span>Enviando...</span>
         ) : (
           <>
-            <Send className=\"w-5 h-5 mr-2\" />
+            <Send className="w-5 h-5 mr-2" />
             Quiero mi Landing Gratis
           </>
         )}
       </Button>
 
-      <p className=\"text-xs text-center text-muted-foreground\">
+      <p className="text-xs text-center text-muted-foreground">
         Al registrarte aceptas recibir información sobre Clientesflow
       </p>
     </form>
