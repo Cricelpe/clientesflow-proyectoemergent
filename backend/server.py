@@ -78,6 +78,7 @@ app.include_router(auth_router)
 app.include_router(landing_pages_router)
 app.include_router(leads_router)
 app.include_router(registro_router)
+app.include_router(landing_generator_router)
 
 # Include the legacy router in the main app
 app.include_router(api_router)
